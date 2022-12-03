@@ -57,12 +57,12 @@ describe("BookRepository", () => {
 
   describe("updateStatus", () => {
     it("should update only status", async () => {
-      const book = await bookRepository.updateStatus(fakeId, true, fakeBookData[3]);
+      const book = await bookRepository.updateStatus(fakeId, fakeBookData[3]);
       expect(book).toEqual(updatedBook);
     })
     it("should return a empty object", async () => {
       jest.spyOn(fakeBookModel, "findByIdAndUpdate").mockResolvedValueOnce(null);
-      const book = await bookRepository.updateStatus(fakeId, true, fakeBookData[0]);
+      const book = await bookRepository.updateStatus(fakeId, fakeBookData[0]);
       expect(book).toEqual({});
     });
   });

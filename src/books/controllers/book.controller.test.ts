@@ -103,13 +103,13 @@ describe("bookController", () => {
     it("should updateStatus of a book", async () => {
       req.params.id = fakeId;
       req.body = fakeBookData[0];
-      await bookController.updateStatus(req, res, true);
+      await bookController.updateStatus(req, res);
       expect(res.json).toHaveBeenCalledWith(updatedBook);
     });
     it("should return status code 200", async () => {
       req.params.id = fakeId;
       req.body = fakeBookData[0];
-      await bookController.updateStatus(req, res, true);
+      await bookController.updateStatus(req, res);
       expect(res.status).toHaveBeenCalledWith(StatusCode.OK);
     });
     it("should return a promiseError", async () => {
@@ -119,7 +119,7 @@ describe("bookController", () => {
         .spyOn(fakeBookService, "updateStatus")
         .mockImplementation(() => Promise.resolve(promiseError("error")));
 
-      await bookController.updateStatus(req, res, true);
+      await bookController.updateStatus(req, res);
       expect(res.status).toHaveBeenCalledWith(StatusCode.INTERNAL_SERVER_ERROR);
     });
     it("should return a invalidIdError", async () => {
@@ -129,7 +129,7 @@ describe("bookController", () => {
         .spyOn(fakeBookService, "updateStatus")
         .mockImplementation(() => Promise.resolve(invalidIdError("id")));
 
-      await bookController.updateStatus(req, res, true);
+      await bookController.updateStatus(req, res);
       expect(res.status).toHaveBeenCalledWith(StatusCode.BAD_REQUEST);
     });
   });

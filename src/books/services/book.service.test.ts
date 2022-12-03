@@ -103,16 +103,16 @@ describe("BookService", () => {
   describe("updateStatus", () => {
     it("should call repository.updateStatus", async () => {
       const spy = jest.spyOn(fakeBookRepository, "updateStatus");
-      await bookService.updateStatus(fakeId, true, updatedBook);
+      await bookService.updateStatus(fakeId, updatedBook);
       expect(spy).toHaveBeenCalled();
     });
     it("should return a updated book", async () => {
-      const book = await bookService.updateStatus(fakeId, true, updatedBook);
+      const book = await bookService.updateStatus(fakeId, updatedBook);
       expect(book).toEqual(updatedBook);
     });
     it("should return a promiseError in a updateStatus", async () => {
       jest.spyOn(fakeBookRepository, "updateStatus").mockRejectedValueOnce("Error");
-      const error = await bookService.updateStatus(fakeId, true, updatedBook);
+      const error = await bookService.updateStatus(fakeId, updatedBook);
       expect(error).toEqual({
         promiseError: {
           message: "unable to request the Database",
