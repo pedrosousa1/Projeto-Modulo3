@@ -44,6 +44,8 @@
 
 2. npm run test para rodar os testes
 
+3. npm run coverage para ver a cobertura de testes
+
 ## Diretorios
 
 1. mocks - Aqui temos mocks/stubs para os testes do serviço principal
@@ -67,65 +69,24 @@
 1. O Projeto em questão será uma API de duas entidades, com uma pasta especifica para
    cada entidade.
 
-2. As entidades devem seguir o conceito de arquitetura em camadas, proposta durante o curso e enumerada no tópico `Diretórios`
+2. As entidades seguem o conceito de arquitetura em camadas.
 
-3. Serão permitidas instalações de bibiliotecas de terceiros, fora as que já se encontram no `package.json`, dese que justificadas durante a apresentação do projeto
+3. lib de terceiros utilizadas:
 
-4. Critérios gerais de aceite:
+- faker-js
 
-ORM/Banco de dados
+4. Tecnlogias utilizadas:
 
-- Será obrigatório o uso da Mongoose para criação das Schemas e Models
+- Mongoose para criação das Schemas e Models.
+- Express (framework Node-js)
 
-Rotas
+5. Testes feitos:
 
-- É obrgatório o uso do Express
+- Testes de Integração
 
-Testes de Integração
+- Teste Unitários
 
-- O projeto deverá conter pelo menos um teste de Integração para cada Enpoint do
-  domínio associado a respectiva entidade, verificando ao menos o StatusCode da response
-  (Não será cobrado criação de ecossistema para teste de Integração)
-
-Teste Unitários
-
-- A camada de Repositórios deve conter pelo menos 1 teste unitário por Método/Função
-- A camada de serviços deverá conter 1 teste unitário para retornos de sucesso
-  e um teste para cada cenário de exceção
-- A camada de controllers deve possuir um teste unitário para cada captura de exceção
-  do serviço e um teste de resposta de sucesso
-- Funções de validação ou Função de mensagem de erro. Todas deverão possuir arquivos de teste unitário
-
-Testes
-
-- Pelo menos 80% de cobertura de Testes
-
-Documentação no Postman/Insomnia
-
-- Todos os endpoints deverão estar documentados e exportados em formato link JSON
-  do postman/insomnia
-- Deverá ser possível rodar a API local e verificar cada execução de request com
-  a documentação assim como os testes de integração com supertest/jest
-
-Retorno das Rotas
-
-- GetAll -> Toda a collection
-- GetById -> Apenas o objeto identificado
-- Update -> Apenas o editado (É uma opção fazer um endpoint para cada tipo de update)
-- Create -> Apenas o objeto criado
-
-Seeder das collections
-
-- Você deverá criar uma função de seeding do banco de dados
-
-Extras/Opcionais
-
-- Interfacear o Core da aplicação(Models, Repos, Services, Controller)
-  \*(pesquisas sobre inversão de controle/inversão de dependência)
-- Realizar o processo de DI com abstrações ao invés de detalhes
-  É a letra D do Solid
-
-5. Entidades e critérios de aceitação específico
+6. Entidades e critérios de aceitação específico
 
 Resenhas (reviews)
 
