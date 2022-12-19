@@ -4,7 +4,7 @@ import { mongoConnect } from "./db/mongo.connect";
 import reviewRoutes from "./reviews/routes/review.routes";
 
 
-mongoConnect();
+mongoConnect(false);
 const app = express();
 app.use(express.json());
 app.use("/books", bookRoutes);

@@ -2,62 +2,45 @@ import { connect, connection, disconnect } from "mongoose";
 import { BookModel } from "../books/models/book.model";
 import { ReviewModel } from "../reviews/models/review.model";
 import { mongo } from "./mongo.connect";
+import { faker } from '@faker-js/faker';
 
 async function seed() {
-  const bookArray = (reviewId: string) => ([
+  const bookArray = (id: any) => ([
     {
-      title: "Quem Mexeu em mim?",
+      title: faker.lorem.word(2),
       releaseDate: "08/09/1998",
       language: ["português", "inglês"],
       status: true,
-      author: "Spencer Johnson",
-      review: reviewId,
-    },
-    {
-      title: "Auto da Compadecida",
-      releaseDate: "03/02/1955",
-      language: ["português", "inglês"],
-      status: true,
-      author: "Ariano Suassuna",
-    },
-    {
-      title: "O Cortiço",
-      releaseDate: "10/08/1890",
-      language: ["português", "inglês"],
-      status: false,
-      author: "Aluísio Azevedo",
+      author: faker.name.fullName(),
+      review: id,
     },
   ]);
 
   const reviewArray = [
     {
-      title: "Quem Mexeu em Mim?",
-      review: ["teste"],
+      title:  faker.lorem.word(2),
+      review: [faker.lorem.paragraph()],
       createDate: new Date(),
       editDate: [new Date()],
       score: 5,
     },
-    {
-      title: "Auto da Compadecida",
-      review: ["teste", "teste"],
-      createDate: new Date(),
-      editDate: [new Date()],
-      score: 4,
-    },
-    {
-      title: "O Cortiço",
-      review: ["teste", "teste", "teste"],
-      createDate: new Date(),
-      editDate: [new Date()],
-      score: 3,
-    },
   ];
 
   try {
-    await BookModel.insertMany(bookArray("638b97acc7a6c071925192fc"));
-    // await ReviewModel.insertMany(reviewArray);
+    await ReviewModel.create(reviewArray);
     console.log("DB successfully seeded");
   } catch (error) {
+    console.log(`failed to seed Book`);
+    console.log(error);
+  }
+
+  const review = await ReviewModel.find()
+
+  const idReview = review[review.length - 1]
+
+  try{
+    await BookModel.create(bookArray(idReview._id));
+  }catch (error) {
     console.log(`failed to seed Book`);
     console.log(error);
   } finally {
@@ -72,7 +55,7 @@ connection
 
   .on("close", () => {
     console.log("Connection to MongoDB ended");
-    process.exit(1);
+    process.exit();
   })
 
   .on("open", () => {

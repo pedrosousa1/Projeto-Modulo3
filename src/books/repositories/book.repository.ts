@@ -5,7 +5,7 @@ export class BookRepository {
   constructor(private readonly bookModel: Model<Book>) {}
 
   async getAll(): Promise<Book[]> {
-    const books = await this.bookModel.find().populate('review');
+    const books = await this.bookModel.find();
 
     return books;
   }

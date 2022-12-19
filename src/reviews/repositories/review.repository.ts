@@ -1,4 +1,5 @@
 import { Model } from "mongoose";
+import { ReviewDto } from "../dto/review.dto";
 import { Review } from "../models/review.model";
 
 export class ReviewRepository {
@@ -20,12 +21,11 @@ export class ReviewRepository {
     return review;
   }
 
-  async update(id: string, reviewModel: Review): Promise<Review> {
+  async update(id: string, reviewModel: ReviewDto): Promise<Review> {
     const { review } = reviewModel;
     const updatedReview = await this.reviewModel.findByIdAndUpdate(
       id,
-      { $set: { review },
-        $push: { editDate: new Date() } },
+      { $push: { review, editDate: new Date() } },
       {
         new: true,
       }
@@ -33,13 +33,13 @@ export class ReviewRepository {
 
     if (updatedReview === null) {
       return {} as Review;
-    };
+    }
 
     return updatedReview;
-  };
+  }
 
   async create(review: Review): Promise<Review> {
     const newReview = await this.reviewModel.create(review);
     return newReview;
-  };
-};
+  }
+}

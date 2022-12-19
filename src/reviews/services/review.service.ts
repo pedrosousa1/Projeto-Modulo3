@@ -1,5 +1,6 @@
 import { CustomErrors, invalidIdError, promiseError } from "../../utils/custom.error";
 import { isIdValid } from "../../utils/id.validator";
+import { ReviewDto } from "../dto/review.dto";
 import { Review } from "../models/review.model";
 import { ReviewRepository } from "../repositories/review.repository";
 
@@ -27,7 +28,7 @@ export class ReviewService {
     };
   };
 
-  async update(id: string, review: Review): Promise<Review | CustomErrors>{
+  async update(id: string, review: ReviewDto): Promise<Review | CustomErrors>{
     try{
       const updatedReview = await this.reviewRepository.update(id, review);
       return updatedReview;

@@ -1,29 +1,31 @@
 import { BookService } from "../services/book.service";
 import { Request, Response } from "express";
 import { StatusCode } from "../../utils/status.code";
+import { invalidBodyBook } from "../utils/body.book.validator";
+import { invalidBodyError } from "../../utils/custom.error";
 
 export class BookController {
-  constructor(private readonly bookService: BookService){}
+  constructor(private readonly bookService: BookService) {}
 
-  async getAll(req: Request, res: Response){
-    const { author } = req.query
+  async getAll(req: Request, res: Response) {
+    const { author } = req.query;
 
-    if(author){
+    if (author) {
       const result = await this.bookService.getByAuthor(author as string);
       return res.status(StatusCode.OK).json(result);
     }
-    
+
     const result = await this.bookService.getAll();
 
-    if("promiseError" in result){
+    if ("promiseError" in result) {
       return res.status(StatusCode.INTERNAL_SERVER_ERROR).json(result);
     }
     return res.status(StatusCode.OK).json(result);
-  };
+  }
 
   async getById(req: Request, res: Response) {
-    const { id } = req.params
-    const result = await this.bookService.getById(id)
+    const { id } = req.params;
+    const result = await this.bookService.getById(id);
 
     if ("invalidIdError" in result) {
       return res.status(StatusCode.BAD_REQUEST).json(result);
@@ -39,6 +41,12 @@ export class BookController {
     const { body } = req;
     const result = await this.bookService.update(id, body);
 
+    if (invalidBodyBook(req)) {
+      return res
+        .status(StatusCode.BAD_REQUEST)
+        .json(invalidBodyError(req.body));
+    }
+
     if ("promiseError" in result) {
       return res.status(StatusCode.INTERNAL_SERVER_ERROR).json(result);
     }
@@ -53,6 +61,12 @@ export class BookController {
     const { body } = req;
     const result = await this.bookService.updateStatus(id, body);
 
+    if (invalidBodyBook(req)) {
+      return res
+        .status(StatusCode.BAD_REQUEST)
+        .json(invalidBodyError(req.body));
+    }
+
     if ("promiseError" in result) {
       return res.status(StatusCode.INTERNAL_SERVER_ERROR).json(result);
     }
@@ -63,7 +77,13 @@ export class BookController {
   }
 
   async create(req: Request, res: Response) {
+    
+    if (invalidBodyBook(req)) {
+      return res.status(StatusCode.BAD_REQUEST).json(invalidBodyError(req.body));
+    }
+
     const { body } = req;
+
     const result = await this.bookService.create(body);
 
     if ("promiseError" in result) {
@@ -71,5 +91,4 @@ export class BookController {
     }
     return res.status(StatusCode.CREATED).json(result);
   }
-
 }
